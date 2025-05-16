@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 0
+    path: Assets/Scenes/SampleScene.unity
+    guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: 5b563e604ee4e75488ad24d6ab63b214
+  - enabled: 1
+    path: Assets/Scenes/EyeBall.unity
+    guid: 03b84a59453356e4db33703652420c00
+  - enabled: 1
+    path: Assets/Scenes/BigToe.unity
+    guid: 6429b2941db02c74fb0341f04507aaad
+  - enabled: 1
+    path: Assets/Scenes/Bladder.unity
+    guid: 589ef7a6070af6b48858a3fc85945ccc
+  - enabled: 1
+    path: Assets/Scenes/Arteries.unity
+    guid: 8672c1b1191906e46adc32920d18e9f0
+  m_configObjects: {}

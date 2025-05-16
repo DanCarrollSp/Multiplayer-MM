@@ -1,0 +1,20 @@
+{
+    "name": "MicrobialMayhamDefinition",
+    "rootNamespace": "",
+    "references": [
+        "EventManagerAssembly",
+        "Unity.TextMeshPro",
+        "Unity.InputSystem",
+        "WorldBuilder.editor",
+        "WorldBuilder.runtime"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
