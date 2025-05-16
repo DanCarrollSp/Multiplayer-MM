@@ -18,7 +18,6 @@
     "ie.alan.playermovement": "https://github.com/itcOnlineGaming/GA_25_P3_Alan_Rondoleanu.git?path=/Packages/ie.alan.playermovement#v1.0.0",
     "ie.setu.eventmanager": "https://github.com/itcOnlineGaming/EventManager.git?path=/Packages/ie.setu.eventManager#v1.0.2",
     "ie.setu.upgradesystem": "https://github.com/itcOnlineGaming/GA_25_P3_Adrian_Sokolowski.git?path=/UpgradeSystemComponent/Packages/ie.setu.upgradesystem#v1.0.2",
-    "ie.setu.worldbuilder": "https://github.com/itcOnlineGaming/GA_25_P3_Daniel_Carroll.git?path=/World%20Building%20Component/Packages/ie.setu.worldbuilder#v1.2.0",
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.androidjni": "1.0.0",
     "com.unity.modules.animation": "1.0.0",

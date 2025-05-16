@@ -369,13 +369,6 @@
       },
       "hash": "d86a5bd693c389ca8c4f6cdcbfe740d42ebc10ea"
     },
-    "ie.setu.worldbuilder": {
-      "version": "https://github.com/itcOnlineGaming/GA_25_P3_Daniel_Carroll.git?path=/World%20Building%20Component/Packages/ie.setu.worldbuilder#v1.2.0",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "0942ff54e0cda463a8c0adabdd18ef1c054ac315"
-    },
     "com.unity.modules.ai": {
       "version": "1.0.0",
       "depth": 0,

@@ -5,8 +5,6 @@
         "EventManagerAssembly",
         "Unity.TextMeshPro",
         "Unity.InputSystem",
-        "WorldBuilder.editor",
-        "WorldBuilder.runtime",
         "Unity.Netcode.Runtime",
         "Unity.Networking.Transport"
     ],
