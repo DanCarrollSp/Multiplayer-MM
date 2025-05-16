@@ -6,7 +6,9 @@
         "Unity.TextMeshPro",
         "Unity.InputSystem",
         "WorldBuilder.editor",
-        "WorldBuilder.runtime"
+        "WorldBuilder.runtime",
+        "Unity.Netcode.Runtime",
+        "Unity.Networking.Transport"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
