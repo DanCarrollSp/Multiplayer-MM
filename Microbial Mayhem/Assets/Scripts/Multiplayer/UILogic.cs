@@ -14,6 +14,8 @@ public class UILogic : MonoBehaviour
     public GameObject hostObject;
     public GameObject clientObject;
     public GameObject inputFieldObject;
+    public GameObject player1Status;
+    public GameObject player2Status;
 
     void Start()
     {
@@ -27,6 +29,8 @@ public class UILogic : MonoBehaviour
         hostObject.SetActive(false);
         clientObject.SetActive(false);
         inputFieldObject.SetActive(false);
+        player1Status.SetActive(true);
+        player2Status.SetActive(true);
         Debug.Log("Host started.");
     }
 
@@ -43,6 +47,8 @@ public class UILogic : MonoBehaviour
         hostObject.SetActive(false);
         clientObject.SetActive(false);
         inputFieldObject.SetActive(false);
+        player1Status.SetActive(true);
+        player2Status.SetActive(true);
         Debug.Log("Client connecting to: " + ip);
     }
 }

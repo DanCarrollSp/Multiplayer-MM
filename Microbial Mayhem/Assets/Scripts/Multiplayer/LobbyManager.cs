@@ -1,11 +1,13 @@
 using Unity.Netcode;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class LobbyManager : NetworkBehaviour
 {
     public TMP_Text player1StatusText;
     public TMP_Text player2StatusText;
+    public GameObject startButton;
 
     public override void OnNetworkSpawn()
     {
@@ -33,7 +35,7 @@ public class LobbyManager : NetworkBehaviour
     {
         if (clientCount >= 1)
         {
-            player1StatusText.text = "Player 1: Ready";
+            player1StatusText.text = "Player 1: Connected";
         }
         else
         {
@@ -46,7 +48,19 @@ public class LobbyManager : NetworkBehaviour
         }
         else
         {
-            player2StatusText.text = "Player 2: Waiting...";
+            player2StatusText.text = "Player 2: Not connected...";
         }
+
+        if (IsHost && clientCount >= 2)
+        {
+            startButton.SetActive(true);
+        }
+    }
+
+    public void OnStartGameButtonClicked()
+    {
+        if (!IsHost) return;
+
+        NetworkManager.SceneManager.LoadScene("Multiplayer", LoadSceneMode.Single);
     }
 }
