@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5774266539452012727}
   - component: {fileID: 7056466515869130302}
   - component: {fileID: 988306883225205118}
+  - component: {fileID: 2150595264615073693}
   - component: {fileID: 3603388477135406698}
   m_Layer: 0
   m_Name: Body_Corner Top
@@ -188,6 +189,27 @@ PolygonCollider2D:
       - {x: -0.48499998, y: 1.3349999}
       - {x: -0.545, y: 1.5849999}
   m_UseDelaunayMesh: 0
+--- !u!114 &2150595264615073693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2193150674559287841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 881739662
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!114 &3603388477135406698
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,3 +222,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdec92bdefff72a499f0538ea55da9c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  changeColorAmount: 6

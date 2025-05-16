@@ -1,76 +1,96 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
-public class BodyWallController : MonoBehaviour
+public class BodyWallController : NetworkBehaviour
 {
-    private GameController gameController; // Reference to GameController
+    private GameController gameController;
     GameObject gameControllerObject;
 
-    int greenAmount = 0;
     public byte changeColorAmount = 6;
     float timeToIncreaseInfection = 0;
-    SpriteRenderer sprite;
-    bool isInfected = false;
-    bool isCollidingWithPlayer = false;
-    // Start is called before the first frame update
+
+    private SpriteRenderer sprite;
+    private bool isCollidingWithPlayer = false;
+
+    private NetworkVariable<Color32> syncedColor = new NetworkVariable<Color32>(
+        new Color32(255, 0, 0, 255),
+        NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Server
+    );
+
+    private NetworkVariable<bool> isInfected = new NetworkVariable<bool>(
+        false,
+        NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Server
+    );
+
+    public override void OnNetworkSpawn()
+    {
+        sprite = GetComponent<SpriteRenderer>();
+
+        // Apply current color in case this is a client joining later
+        sprite.color = syncedColor.Value;
+
+        // Subscribe to updates so color changes in real time
+        syncedColor.OnValueChanged += (oldColor, newColor) =>
+        {
+            sprite.color = newColor;
+            Debug.Log($"[Client] Updated wall color to {newColor}");
+        };
+    }
+
+
     void Start()
     {
         gameControllerObject = GameObject.FindWithTag("GameController");
         gameController = gameControllerObject.GetComponent<GameController>();
-
-        sprite = GetComponent<SpriteRenderer>();
-        sprite.color = new Color(255, 0, 0);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (isCollidingWithPlayer) // Only change color while colliding with the player
+        if (!IsServer) return; // Only server processes the infection
+
+        if (isCollidingWithPlayer && !isInfected.Value)
         {
             timeToIncreaseInfection += Time.deltaTime;
 
-            if (timeToIncreaseInfection > 0.0175f) // Change color at intervals
+            if (timeToIncreaseInfection > 0.0175f)
             {
-                Color32 newColor = sprite.color;
+                Color32 currentColor = syncedColor.Value;
 
-                if (newColor.r - changeColorAmount >= 0)
-                    newColor.r -= changeColorAmount;
-                else
-                {
-                    newColor.r = 0;
-                }
-                if (newColor.g + changeColorAmount <= 255)
-                    newColor.g += changeColorAmount;
-                else
-                {
-                    newColor.g = 255;
-                }
+                byte r = currentColor.r > changeColorAmount ? (byte)(currentColor.r - changeColorAmount) : (byte)0;
+                byte g = currentColor.g < 255 - changeColorAmount ? (byte)(currentColor.g + changeColorAmount) : (byte)255;
 
-                if (newColor.g == 255 && !isInfected)
+                Color32 newColor = new Color32(r, g, 0, 255);
+                syncedColor.Value = newColor;
+
+                if (g == 255 && !isInfected.Value)
                 {
-                    isInfected = true;
-                    gameController.GotInfection();
+                    isInfected.Value = true;
+                    gameController.GotInfection(); // Still a local call — ensure GC is network-safe if needed
                 }
 
-                sprite.color = newColor;
-                timeToIncreaseInfection = 0; // Reset timer
+                timeToIncreaseInfection = 0;
             }
         }
-
     }
 
     void OnTriggerStay2D(Collider2D other)
     {
-        if (other.CompareTag("InfectionRadius") && !isInfected)
+        if (!IsServer) return;
+
+        if (other.CompareTag("InfectionRadius") && !isInfected.Value)
         {
             isCollidingWithPlayer = true;
-            Debug.Log("Infection Col");
         }
     }
 
     void OnTriggerExit2D(Collider2D other)
     {
+        if (!IsServer) return;
+
         if (other.CompareTag("InfectionRadius"))
         {
             isCollidingWithPlayer = false;

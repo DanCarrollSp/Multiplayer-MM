@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6371645985528933642}
   - component: {fileID: 2865214312465620616}
   - component: {fileID: 3324509802539984510}
+  - component: {fileID: -5792265761671005821}
   - component: {fileID: 1550365258349385819}
   m_Layer: 0
   m_Name: Body_Wall 2
@@ -152,6 +153,27 @@ PolygonCollider2D:
       - {x: -0.475, y: -1.475}
       - {x: -0.465, y: -1.375}
   m_UseDelaunayMesh: 0
+--- !u!114 &-5792265761671005821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9143734241055560920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 304186065
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!114 &1550365258349385819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,3 +186,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdec92bdefff72a499f0538ea55da9c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  changeColorAmount: 6

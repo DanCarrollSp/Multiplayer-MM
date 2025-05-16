@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4187160019466486579}
   - component: {fileID: 6160952350243980784}
+  - component: {fileID: 2897242701211499837}
   - component: {fileID: 6784585363310820765}
   - component: {fileID: 5038897034273920623}
   m_Layer: 0
@@ -86,6 +87,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2897242701211499837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8419897706246561610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 556162775
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!114 &6784585363310820765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -98,6 +120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdec92bdefff72a499f0538ea55da9c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  changeColorAmount: 6
 --- !u!60 &5038897034273920623
 PolygonCollider2D:
   m_ObjectHideFlags: 0
