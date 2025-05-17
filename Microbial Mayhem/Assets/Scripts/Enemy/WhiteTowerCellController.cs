@@ -1,52 +1,47 @@
-using System.Collections;
+// WhiteTowerCellController.cs
 using System.Collections.Generic;
-using System.IO.MemoryMappedFiles;
+using Unity.Netcode;
 using UnityEngine;
 
-public class WhiteTowerCellController : MonoBehaviour
+public class WhiteTowerCellController : NetworkBehaviour
 {
+    [Header("References")]
     public List<GameObject> cannons = new List<GameObject>();
-    public GameObject bullet;
+    public GameObject bulletPrefab; // ? make sure this is the prefab!
 
-
-    public float shootInterval = 3f; // Time between shots
+    [Header("Timing")]
+    public float shootInterval = 3f;
     private float shootTimer = 0f;
 
+    [Header("Rotation")]
     public float rotationSpeed = 20f;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        shootTimer += Time.deltaTime;
-
-        if (shootTimer >= shootInterval)
-        {
-            shootCannons();
-            shootTimer = 0f;
-        }
+        // Always spin on every client for visuals
         transform.Rotate(0f, 0f, rotationSpeed * Time.deltaTime);
-    }
 
-    void shootCannons()
-    {
+        // Only the server actually spawns bullets
+        if (!IsServer) return;
+
+        shootTimer += Time.deltaTime;
+        if (shootTimer < shootInterval) return;
+        shootTimer = 0f;
+
         foreach (var cannon in cannons)
         {
-            GameObject newBullet = Instantiate(bullet, cannon.transform.position, Quaternion.identity);
+            var newBullet = Instantiate(
+                bulletPrefab,
+                cannon.transform.position,
+                cannon.transform.rotation
+            );
 
-            // Get direction from cannon to shoot outward
-            Vector2 direction = cannon.transform.up; // cannon faces up by default in Unity
+            // This line *must* be a prefab with a NetworkObject on it
+            newBullet.GetComponent<NetworkObject>().Spawn();
 
-            // Apply velocity to the bullet
-            Rigidbody2D rb = newBullet.GetComponent<Rigidbody2D>();
-            if (rb != null)
-            {
-                rb.velocity = direction * 10f;
-            }
+            // Give it velocity; movement will sync via NetworkTransform
+            if (newBullet.TryGetComponent<Rigidbody2D>(out var rb))
+                rb.velocity = cannon.transform.up * 10f;
         }
     }
 }

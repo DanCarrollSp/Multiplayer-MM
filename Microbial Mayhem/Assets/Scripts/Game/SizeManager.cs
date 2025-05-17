@@ -1,55 +1,41 @@
-using System.Collections;
-using System.Collections.Generic;
+// SizeManager.cs
 using UnityEngine;
 
 public class SizeManager : MonoBehaviour
 {
     private SpriteRenderer spriteRenderer;
+    public float size = 1f;
 
-    public float size = 1.0f;
-
-    private void Start()
+    private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         size = transform.localScale.x;
     }
 
-    public void IncreaseSpriteSize(float t_increase)
+    public void IncreaseSpriteSize(float amount)
     {
-        if (spriteRenderer != null)
-        {
-            float sizeIncrement = t_increase;
-
-            Vector3 scale = transform.localScale;
-            scale.x += sizeIncrement;
-            scale.y += sizeIncrement;
-
-            transform.localScale = scale;
-            size = transform.localScale.x;
-        }
+        Vector3 s = transform.localScale;
+        s.x += amount;
+        s.y += amount;
+        transform.localScale = s;
+        size = s.x;
     }
 
-    public void DecreaseSpriteSize(float t_decrease)
+    public void DecreaseSpriteSize(float amount)
     {
-        if (spriteRenderer != null)
-        {
-            float sizeIncrement = t_decrease;
-
-            Vector3 scale = transform.localScale; 
-            scale.x -= sizeIncrement; 
-            scale.y -= sizeIncrement; 
-
-            transform.localScale = scale;
-            size = transform.localScale.x;
-        }
+        Vector3 s = transform.localScale;
+        s.x -= amount;
+        s.y -= amount;
+        transform.localScale = s;
+        size = s.x;
     }
 
-    public void SetValues(float size)
+    public void SetValues(float newSize)
     {
-        Vector3 scale = transform.localScale;
-        scale.x = size;
-        scale.y = size;
-
-        transform.localScale = scale;
+        Vector3 s = transform.localScale;
+        s.x = newSize;
+        s.y = newSize;
+        transform.localScale = s;
+        size = newSize;
     }
 }

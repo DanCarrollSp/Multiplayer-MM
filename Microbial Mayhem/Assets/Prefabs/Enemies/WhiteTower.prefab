@@ -120,6 +120,7 @@ GameObject:
   - component: {fileID: 6150302590335707353}
   - component: {fileID: 1431478754031989639}
   - component: {fileID: 3087660757601091515}
+  - component: {fileID: 6408293479141275709}
   m_Layer: 0
   m_Name: WhiteTower
   m_TagString: Untagged
@@ -234,7 +235,30 @@ MonoBehaviour:
   - {fileID: 5165718844132268380}
   - {fileID: 5536118011357359646}
   - {fileID: 2115215163680252537}
-  bullet: {fileID: 3164485499748135347, guid: 63b8ae1d7286756469ae8f4f69873773, type: 3}
+  bulletPrefab: {fileID: 0}
+  shootInterval: 3
+  rotationSpeed: 20
+--- !u!114 &6408293479141275709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2242261115247241910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &5165718844132268380
 GameObject:
   m_ObjectHideFlags: 0

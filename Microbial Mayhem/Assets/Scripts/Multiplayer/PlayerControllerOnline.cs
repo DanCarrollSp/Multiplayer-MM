@@ -1,9 +1,10 @@
+// PlayerControllerOnline.cs
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Unity.Netcode;
 
-[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Rigidbody2D), typeof(NetworkObject))]
 public class PlayerControllerOnline : NetworkBehaviour
 {
     [Header("General Settings")]
@@ -21,8 +22,6 @@ public class PlayerControllerOnline : NetworkBehaviour
 
     private Rigidbody2D rb;
     private PlayerInput playerInput;
-
-    // input and velocity are driven on the server
     private Vector2 input;
     private Vector2 velocity;
     private List<Vector2> pullForces = new List<Vector2>();
@@ -32,21 +31,15 @@ public class PlayerControllerOnline : NetworkBehaviour
         rb = GetComponent<Rigidbody2D>();
         playerInput = GetComponent<PlayerInput>();
 
-        // Only the server simulates physics; clients just get transform updates
+        // server simulates physics; clients just get transform updates
         if (!IsServer)
-        {
             rb.isKinematic = true;
-        }
     }
 
-    void Update()
+    private void Update()
     {
         if (!IsOwner || !isActive) return;
-
-        // Read WASD/gamepad input
         Vector2 moveInput = playerInput.actions["Move"].ReadValue<Vector2>();
-
-        // Send it up to the server each frame
         SendInputServerRpc(moveInput);
     }
 
@@ -56,29 +49,21 @@ public class PlayerControllerOnline : NetworkBehaviour
         input = movementInput;
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
-        // Only the server actually moves the Rigidbody
         if (!IsServer || !isActive) return;
-
         MoveCharacter();
     }
 
     private void MoveCharacter()
     {
-        // Acceleration/deceleration
-        Vector2 targetVelocity = input * speed;
+        Vector2 targetVel = input * speed;
         if (useAcceleration)
-        {
-            if (input.sqrMagnitude > 0)
-                velocity = Vector2.MoveTowards(velocity, targetVelocity, acceleration * Time.fixedDeltaTime);
-            else
-                velocity = Vector2.MoveTowards(velocity, Vector2.zero, deceleration * Time.fixedDeltaTime);
-        }
+            velocity = (input.sqrMagnitude > 0)
+                ? Vector2.MoveTowards(velocity, targetVel, acceleration * Time.fixedDeltaTime)
+                : Vector2.MoveTowards(velocity, Vector2.zero, deceleration * Time.fixedDeltaTime);
         else
-        {
-            velocity = targetVelocity;
-        }
+            velocity = targetVel;
 
         ApplyPullForces();
         rb.velocity = Vector2.ClampMagnitude(velocity, maxSpeed);
@@ -95,7 +80,6 @@ public class PlayerControllerOnline : NetworkBehaviour
         }
     }
 
-    // If other systems need to add a pull force, send that up via RPC too
     public void AddPullForce(Vector2 force)
     {
         if (!IsOwner) return;
@@ -113,7 +97,15 @@ public class PlayerControllerOnline : NetworkBehaviour
         if (!IsOwner) return;
         Vector2 offset = position - (Vector2)transform.position;
         if (offset.sqrMagnitude == 0f) return;
-        Vector2 direction = offset.normalized;
-        AddPullForce(direction * pullStrength);
+        AddPullForce(offset.normalized * pullStrength);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ShrinkOnServerRpc(float amount, ServerRpcParams rpcParams = default)
+    {
+        Vector3 s = transform.localScale;
+        s.x = Mathf.Max(0f, s.x - amount);
+        s.y = Mathf.Max(0f, s.y - amount);
+        transform.localScale = s;
     }
 }

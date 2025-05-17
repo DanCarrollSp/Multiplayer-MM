@@ -1,29 +1,52 @@
-using System.Collections;
-using System.Collections.Generic;
+// WhiteBulletController.cs
+using Unity.Netcode;
 using UnityEngine;
 
-public class WhiteBulletController : MonoBehaviour
+[RequireComponent(typeof(NetworkObject))]
+public class WhiteBulletController : NetworkBehaviour
 {
-    GameObject player;
-    // Start is called before the first frame update
-    void Start()
+    public float lifeTime = 10f;
+    private NetworkObject netObj;
+
+    private void Awake() => netObj = GetComponent<NetworkObject>();
+
+    private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
-        Destroy(gameObject, 10f);
+        if (IsServer)
+            Invoke(nameof(DestroySelf), lifeTime);
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    private void DestroySelf()
     {
-        if (other.CompareTag("Player"))
-        {
-            player.GetComponent<SizeManager>().DecreaseSpriteSize(0.1f);
-            Destroy(gameObject);
-        }
-        if (other.CompareTag("Wall"))
-        {
-            Destroy(gameObject);
-        }
+        if (IsServer && netObj.IsSpawned)
+            netObj.Despawn();
     }
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (!IsServer) return;
 
+        var playerController = other.GetComponent<PlayerControllerOnline>()
+                            ?? other.GetComponentInParent<PlayerControllerOnline>();
+        if (playerController != null)
+        {
+            Debug.Log($"[Server] Bullet hit {playerController.name} (client {playerController.OwnerClientId})");
+
+            // Shrink the *server’s* copy of that player:
+            playerController.ShrinkOnServerRpc(
+              0.1f,
+              new ServerRpcParams
+              {
+                  // not strictly needed here, but left for clarity
+                  //Send = new ServerRpcSendParams { TargetClientIds = new[] { playerController.OwnerClientId } }
+              }
+            );
+
+            netObj.Despawn();
+        }
+        else if (other.CompareTag("Wall"))
+        {
+            netObj.Despawn();
+        }
+    }
 }
