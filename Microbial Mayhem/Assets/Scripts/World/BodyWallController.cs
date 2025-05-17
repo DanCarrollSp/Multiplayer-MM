@@ -6,7 +6,7 @@ using System;
 
 public class BodyWallController : NetworkBehaviour
 {
-    private GameController gameController;
+    private OnlineGameManager gameController;
     GameObject gameControllerObject;
 
     public byte changeColorAmount = 6;
@@ -47,7 +47,7 @@ public class BodyWallController : NetworkBehaviour
     void Start()
     {
         gameControllerObject = GameObject.FindWithTag("GameController");
-        gameController = gameControllerObject.GetComponent<GameController>();
+        gameController = gameControllerObject.GetComponent<OnlineGameManager>();
     }
 
     void Update()
@@ -102,7 +102,7 @@ public class BodyWallController : NetworkBehaviour
                 if (((infectingClientId == 0 && g == 255) || (infectingClientId == 1 && b == 255)) && !isInfected.Value)
                 {
                     isInfected.Value = true;
-                    gameController.GotInfection();
+                    gameController.GotInfection(infectingClientId);
                 }
 
                 timeToIncreaseInfection = 0;
