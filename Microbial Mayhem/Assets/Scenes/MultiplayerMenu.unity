@@ -186,6 +186,7 @@ GameObject:
   - component: {fileID: 391245546}
   - component: {fileID: 391245547}
   - component: {fileID: 391245549}
+  - component: {fileID: 391245550}
   m_Layer: 0
   m_Name: LobbyManager
   m_TagString: Untagged
@@ -264,6 +265,20 @@ MonoBehaviour:
   inputFieldObject: {fileID: 535186985}
   player1Status: {fileID: 1328793030}
   player2Status: {fileID: 1466643262}
+--- !u!114 &391245550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 391245545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb8c0c0ff540294429acaff94fcab39f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player0Prefab: {fileID: 8330268486580786864, guid: eb7266f0b63729c478817c1fb5685bdf, type: 3}
+  player1Prefab: {fileID: 1988285695866805162, guid: b0e4c254b5b08ea4b89f91b6f95e318b, type: 3}
 --- !u!1 &426563334
 GameObject:
   m_ObjectHideFlags: 0
@@ -1552,11 +1567,9 @@ MonoBehaviour:
   NetworkConfig:
     ProtocolVersion: 0
     NetworkTransport: {fileID: 1374697039}
-    PlayerPrefab: {fileID: 8330268486580786864, guid: eb7266f0b63729c478817c1fb5685bdf, type: 3}
+    PlayerPrefab: {fileID: 0}
     Prefabs:
       NetworkPrefabsLists:
-      - {fileID: 11400000, guid: 15d611238cab73244b1995ed6dcfdb4a, type: 2}
-      - {fileID: 11400000, guid: 15d611238cab73244b1995ed6dcfdb4a, type: 2}
       - {fileID: 11400000, guid: 15d611238cab73244b1995ed6dcfdb4a, type: 2}
     TickRate: 30
     ClientConnectionBufferTimeout: 10
