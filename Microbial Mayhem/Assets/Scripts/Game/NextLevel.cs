@@ -1,51 +1,63 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using TMPro; // Import TextMeshPro
+using TMPro;
+using Unity.Netcode;
 
 public class NextLevel : MonoBehaviour
 {
-    private GameController gameController;
-    private TextMeshProUGUI nextLevelText;
-    private bool levelTriggered = false; // Prevent multiple triggers
-    public string nextScene;
-    public GameObject LoadingScenePanel;
-    void Start()
-    {
-        
-        gameController = FindObjectOfType<GameController>(); // Find GameController in the scene
+    [Header("UI References")]
+    public TextMeshProUGUI nextLevelText;
+    public GameObject loadingScenePanel;
 
-        GameObject nextLevelObj = GameObject.FindGameObjectWithTag("NextLevel");
-        if (nextLevelObj != null)
+    [Header("Scene")]
+    public string nextScene;
+
+    bool levelTriggered = false;
+    string pendingResult = "";
+
+    void Awake()
+    {
+        if (nextLevelText == null)
         {
-            nextLevelText = nextLevelObj.GetComponent<TextMeshProUGUI>();
-            nextLevelText.enabled = false; // Ensure text is initially hidden
+            var obj = GameObject.FindGameObjectWithTag("NextLevel");
+            if (obj != null) nextLevelText = obj.GetComponent<TextMeshProUGUI>();
         }
-        else
+        nextLevelText.enabled = false;
+        loadingScenePanel.SetActive(false);
+    }
+
+    // Called by the ClientRpc, now with text
+    public void TriggerNextLevelUI(string resultText)
+    {
+        if (levelTriggered) return;
+        levelTriggered = true;
+
+        pendingResult = resultText;
+        nextLevelText.text = pendingResult;
+        nextLevelText.enabled = true;
+
+        StartCoroutine(ShowLoadingAndLoadScene());
+    }
+
+    IEnumerator ShowLoadingAndLoadScene()
+    {
+        yield return new WaitForSeconds(2f);
+        loadingScenePanel.SetActive(true);
+        yield return new WaitForSeconds(2f);
+
+        if (NetworkManager.Singleton.IsHost)
         {
-            Debug.LogWarning("No GameObject with tag 'NextLevel' found!");
+            NetworkManager.Singleton.SceneManager.LoadScene(
+                nextScene,
+                UnityEngine.SceneManagement.LoadSceneMode.Single
+            );
         }
     }
 
+    // (optional debug trigger)
     void Update()
     {
-        // Only trigger when infectionCount >= wallCount and it hasn't been triggered yet
-        if ((!levelTriggered && gameController != null && gameController.infectionCount >= gameController.wallCount) || Input.GetKeyDown(KeyCode.G))
-        {
-            levelTriggered = true; // Prevent multiple triggers
-            StartCoroutine(ShowTextAndLoadScene());
-        }
-    }
-
-    IEnumerator ShowTextAndLoadScene()
-    {
-        if (nextLevelText != null)
-        {
-            nextLevelText.enabled = true; // Show text only now
-        }
-
-        yield return new WaitForSeconds(3f); // Wait for 5 seconds
-
-        LoadingScenePanel.SetActive(true);
+        if (Input.GetKeyDown(KeyCode.G))
+            TriggerNextLevelUI("DEBUG: Forced Win");
     }
 }
