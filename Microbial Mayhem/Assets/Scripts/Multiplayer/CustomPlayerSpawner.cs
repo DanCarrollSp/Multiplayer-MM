@@ -22,7 +22,6 @@ public class CustomPlayerSpawner : NetworkBehaviour
         }
         else
         {
-            // Optional: wait for scene load, then spawn
             SceneManager.sceneLoaded += (scene, mode) =>
             {
                 if (scene.name == "Multiplayer")

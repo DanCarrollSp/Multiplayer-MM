@@ -9,7 +9,7 @@ public class UILogic : MonoBehaviour
 {
     public Button hostButton;
     public Button clientButton;
-    public TMPro.TMP_InputField ipInputField; // Optional
+    public TMPro.TMP_InputField ipInputField;
 
     public GameObject hostObject;
     public GameObject clientObject;
@@ -36,19 +36,21 @@ public class UILogic : MonoBehaviour
 
     void StartClient()
     {
-        string ip = ipInputField != null ? ipInputField.text : "127.0.0.1";
+        if (ipInputField.text == "127.0.0.1")
+        {
+            string ip = ipInputField.text;
 
-        // Set the IP address if using UnityTransport
-        Unity.Netcode.Transports.UTP.UnityTransport transport =
-            (Unity.Netcode.Transports.UTP.UnityTransport)NetworkManager.Singleton.NetworkConfig.NetworkTransport;
-        transport.SetConnectionData(ip, 7777); // Port can be customized
+            Unity.Netcode.Transports.UTP.UnityTransport transport = (Unity.Netcode.Transports.UTP.UnityTransport)NetworkManager.Singleton.NetworkConfig.NetworkTransport;
 
-        NetworkManager.Singleton.StartClient();
-        hostObject.SetActive(false);
-        clientObject.SetActive(false);
-        inputFieldObject.SetActive(false);
-        player1Status.SetActive(true);
-        player2Status.SetActive(true);
-        Debug.Log("Client connecting to: " + ip);
+            transport.SetConnectionData(ip, 7777);
+
+            NetworkManager.Singleton.StartClient();
+            hostObject.SetActive(false);
+            clientObject.SetActive(false);
+            inputFieldObject.SetActive(false);
+            player1Status.SetActive(true);
+            player2Status.SetActive(true);
+            Debug.Log("Client connecting to: " + ip);
+        }
     }
 }

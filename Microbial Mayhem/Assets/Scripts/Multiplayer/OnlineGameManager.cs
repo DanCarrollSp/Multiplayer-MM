@@ -5,10 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class OnlineGameManager : NetworkBehaviour
 {
-    [Header("Config")]
     public float showDelay = 3f;
 
-    [Header("Next Scene")]
     public string nextSceneName;
 
     private int totalWalls;

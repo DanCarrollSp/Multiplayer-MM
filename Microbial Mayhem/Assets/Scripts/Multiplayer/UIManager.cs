@@ -13,12 +13,19 @@ public class UIManager : NetworkBehaviour
     {
         UpdateInfectionPercentagesClientRpc(0, 0, 16);
     }
-    // Called by the server
+
     [ClientRpc]
     public void UpdateInfectionPercentagesClientRpc(int player1Walls, int player2Walls, int totalWalls)
     {
-        float percent1 = totalWalls > 0 ? (player1Walls * 100f / totalWalls) : 0;
-        float percent2 = totalWalls > 0 ? (player2Walls * 100f / totalWalls) : 0;
+        float percent1 = 0;
+        float percent2 = 0;
+
+        if (totalWalls > 0)
+        {
+            float scale = 100f / totalWalls;
+            percent1 = player1Walls * scale;
+            percent2 = player2Walls * scale;
+        }
 
         player1Text.text = $"Player 1: {percent1:F1}%";
         player2Text.text = $"Player 2: {percent2:F1}%";

@@ -7,17 +7,14 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody2D), typeof(NetworkObject))]
 public class PlayerControllerOnline : NetworkBehaviour
 {
-    [Header("General Settings")]
     public bool isActive = true;
     public bool useAcceleration = true;
 
-    [Header("Movement Settings")]
     public float speed = 5f;
     public float maxSpeed = 10f;
     public float acceleration = 10f;
     public float deceleration = 10f;
 
-    [Header("Pull Forces")]
     public float pullDampening = 5f;
 
     private Rigidbody2D rb;

@@ -54,7 +54,6 @@ public class NextLevel : MonoBehaviour
         }
     }
 
-    // (optional debug trigger)
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.G))

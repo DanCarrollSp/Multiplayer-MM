@@ -36,7 +36,6 @@ public class WhiteTowerCellController : NetworkBehaviour
                 cannon.transform.rotation
             );
 
-            // This line *must* be a prefab with a NetworkObject on it
             newBullet.GetComponent<NetworkObject>().Spawn();
 
             // Give it velocity; movement will sync via NetworkTransform
